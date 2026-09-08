@@ -22,7 +22,7 @@ config:
 existingSecret: booking-service-secret
 
 health:
-  enabled: true
+  enabled: false
 
   readinessPath: /api/health
   livenessPath: /api/health
