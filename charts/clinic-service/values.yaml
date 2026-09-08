@@ -17,6 +17,15 @@ config: {}
 
 existingSecret: ""
 
+health:
+  enabled: true
+
+  readinessPath: /api/health
+  livenessPath: /api/health
+
+  readinessInitialDelaySeconds: 5
+  livenessInitialDelaySeconds: 15
+
 resources:
   requests:
     cpu: 100m
@@ -26,12 +35,24 @@ resources:
     cpu: 500m
     memory: 512Mi
 
-health:
-  enabled: true
-  path: /api/health
-
 ingress:
   enabled: false
+
+  className: traefik
+
+  annotations: {}
+
+  hosts: []
+
+  tls: []
+
+autoscaling:
+  enabled: false
+
+  minReplicas: 1
+  maxReplicas: 3
+
+  targetCPUUtilizationPercentage: 70
 
 nodeSelector:
   purpose: app-hosting

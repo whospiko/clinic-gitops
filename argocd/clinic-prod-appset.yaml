@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 
 metadata:
-  name: clinic-dev
+  name: clinic-prod
   namespace: argocd
 
 spec:
@@ -17,12 +17,12 @@ spec:
         revision: main
 
         directories:
-          - path: environments/dev/*
+          - path: environments/prod/*
 
   template:
 
     metadata:
-      name: 'dev-{{ .path.basename }}'
+      name: 'prod-{{ .path.basename }}'
 
     spec:
       project: clinic
@@ -41,7 +41,7 @@ spec:
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: clinic-dev
+        namespace: clinic-prod
 
       syncPolicy:
         automated:

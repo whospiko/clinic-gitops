@@ -6,11 +6,10 @@ metadata:
   namespace: argocd
 
 spec:
-
-  description: Clinic Platform
+  description: Clinic Platform GitOps Project
 
   sourceRepos:
-    - https://github.com/whospiko/clinic-gitops.git
+    - https://github.com/whospiko/clinic-gitops
 
   destinations:
     - namespace: clinic-dev
@@ -22,3 +21,7 @@ spec:
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

@@ -2,7 +2,7 @@ apiVersion: v2
 
 name: clinic-service
 
-description: Reusable Helm chart for Clinic Platform microservices
+description: Reusable Helm chart for Clinic Platform NestJS microservices
 
 type: application
 

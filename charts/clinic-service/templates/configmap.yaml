@@ -6,6 +6,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}
 
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+
 data:
 
   {{- range $key, $value := .Values.config }}

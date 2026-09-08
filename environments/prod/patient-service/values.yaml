@@ -15,7 +15,7 @@ service:
   port: 3002
 
 config:
-  NODE_ENV: development
+  NODE_ENV: production
   PORT: "3002"
 
 existingSecret: patient-service-secret
@@ -40,4 +40,10 @@ ingress:
   enabled: false
 
 autoscaling:
-  enabled: false
+
+  enabled: true
+
+  minReplicas: 2
+  maxReplicas: 5
+
+  targetCPUUtilizationPercentage: 70

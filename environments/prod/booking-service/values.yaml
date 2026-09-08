@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: ghcr.io/whospiko/booking-service
@@ -15,7 +15,7 @@ service:
   port: 3001
 
 config:
-  NODE_ENV: development
+  NODE_ENV: production
   PORT: "3001"
 
   PATIENT_SERVICE_URL: http://patient-service:3002
@@ -30,6 +30,14 @@ health:
 
 resources:
 
+  # requests:
+  #   cpu: 250m
+  #   memory: 256Mi
+
+  # limits:
+  #   cpu: "1"
+  #   memory: 1Gi
+  
   requests:
     cpu: 100m
     memory: 128Mi
@@ -42,4 +50,10 @@ ingress:
   enabled: false
 
 autoscaling:
-  enabled: false
+
+  enabled: true
+
+  minReplicas: 2
+  maxReplicas: 5
+
+  targetCPUUtilizationPercentage: 70
