@@ -5,8 +5,7 @@ image:
   tag: "f51f2ba5d709186b08ba0266d4c2642cba31135a"
   pullPolicy: IfNotPresent
 
-imagePullSecrets:
-  - name: ghcr-pull
+imagePullSecrets:  []
 
 containerPort: 3002
 
