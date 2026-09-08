@@ -54,18 +54,14 @@ resources:
     memory: 512Mi
 
 ingress:
-
   enabled: true
-
   className: traefik
 
   annotations: {}
 
   hosts:
-
     - host: dev-clinic.thecapy.org
       paths:
-
         - path: /
           pathType: Prefix
 

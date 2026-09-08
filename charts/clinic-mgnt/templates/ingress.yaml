@@ -10,42 +10,32 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}
 
   {{- with .Values.ingress.annotations }}
-
   annotations:
     {{- toYaml . | nindent 4 }}
-
   {{- end }}
 
 spec:
-
   ingressClassName: {{ .Values.ingress.className }}
 
   {{- with .Values.ingress.tls }}
-
   tls:
     {{- toYaml . | nindent 4 }}
-
   {{- end }}
 
   rules:
-
     {{- range .Values.ingress.hosts }}
 
     - host: {{ .host | quote }}
 
       http:
-
         paths:
-
           {{- range .paths }}
 
           - path: {{ .path }}
             pathType: {{ .pathType }}
 
             backend:
-
               service:
-
                 name: {{ $.Release.Name }}
 
                 port:
