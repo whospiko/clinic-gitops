@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/whospiko/clinic-mgnt
+  repository: ghcr.io/whospiko/clinic-frontend-mgnt
   tag: "dev-sha-3d8bdd7"
   pullPolicy: IfNotPresent
 
