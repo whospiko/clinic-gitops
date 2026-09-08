@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/whospiko/booking-service
-  tag: "sha-f51f2ba5d709186b08ba0266d4c2642cba31135a"
+  tag: "f51f2ba5d709186b08ba0266d4c2642cba31135a"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
