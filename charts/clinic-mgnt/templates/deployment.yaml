@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ .Release.Name }}
+
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: Helm
+
+spec:
+
+  replicas: {{ .Values.replicaCount }}
+
+  revisionHistoryLimit: 3
+
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+
+  template:
+
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+
+    spec:
+
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      containers:
+
+        - name: {{ .Release.Name }}
+
+          image: "{{ required "image.repository is required" .Values.image.repository }}:{{ required "image.tag is required" .Values.image.tag }}"
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+
+            - name: http
+              containerPort: {{ .Values.containerPort }}
+              protocol: TCP
+
+          {{- if or .Values.config .Values.existingSecret }}
+
+          envFrom:
+
+            {{- if .Values.config }}
+            - configMapRef:
+                name: {{ .Release.Name }}
+            {{- end }}
+
+            {{- if .Values.existingSecret }}
+            - secretRef:
+                name: {{ .Values.existingSecret }}
+            {{- end }}
+
+          {{- end }}
+
+          {{- if .Values.health.enabled }}
+
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.health.readinessPath }}
+              port: http
+
+            initialDelaySeconds: {{ .Values.health.readinessInitialDelaySeconds }}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.health.livenessPath }}
+              port: http
+
+            initialDelaySeconds: {{ .Values.health.livenessInitialDelaySeconds }}
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          {{- end }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

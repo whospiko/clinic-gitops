@@ -1,0 +1,50 @@
+replicaCount: 1
+
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+containerPort: 3000
+
+service:
+  type: ClusterIP
+  port: 3000
+
+config: {}
+
+existingSecret: ""
+
+health:
+  enabled: true
+
+  readinessPath: /
+  livenessPath: /
+
+  readinessInitialDelaySeconds: 5
+  livenessInitialDelaySeconds: 15
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+ingress:
+  enabled: false
+
+  className: traefik
+
+  annotations: {}
+
+  hosts: []
+
+  tls: []
+
+nodeSelector:
+  purpose: app-hosting
