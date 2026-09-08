@@ -19,8 +19,10 @@ spec:
         directories:
           - path: environments/dev/*
 
-  template:
+          - path: environments/dev/clinic-mgnt
+            exclude: true
 
+  template:
     metadata:
       name: 'dev-{{ .path.basename }}'
 

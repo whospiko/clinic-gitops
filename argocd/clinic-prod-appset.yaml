@@ -18,6 +18,9 @@ spec:
 
         directories:
           - path: environments/prod/*
+          
+          - path: environments/dev/clinic-mgnt
+            exclude: true
 
   template:
 
