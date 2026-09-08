@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: clinic
+  namespace: argocd
+
+spec:
+
+  description: Clinic Platform
+
+  sourceRepos:
+    - https://github.com/whospiko/clinic-gitops.git
+
+  destinations:
+    - namespace: clinic-dev
+      server: https://kubernetes.default.svc
+
+    - namespace: clinic-prod
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace

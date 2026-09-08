@@ -1,0 +1,37 @@
+replicaCount: 1
+
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+containerPort: 3000
+
+service:
+  type: ClusterIP
+  port: 3000
+
+config: {}
+
+existingSecret: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+health:
+  enabled: true
+  path: /api/health
+
+ingress:
+  enabled: false
+
+nodeSelector:
+  purpose: app-hosting
