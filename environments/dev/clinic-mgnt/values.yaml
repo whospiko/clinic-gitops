@@ -5,7 +5,8 @@ image:
   tag: "dev-sha-3d8bdd7"
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: ghcr-pull
 
 containerPort: 3000
 
