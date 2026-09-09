@@ -22,9 +22,9 @@ config:
 
   HOSTNAME: "0.0.0.0"
 
-  BOOKING_API_URL: http://booking-service:3001/api
+  BOOKING_API_URL: http://booking-service.clinic-dev.svc.cluster.local:3001/api
 
-  PATIENT_API_URL: http://patient-service:3002/api
+  PATIENT_API_URL: http://patient-service.clinic-dev.svc.cluster.local:3002/api
 
   NEXT_PUBLIC_BOOKING_API_URL: /api/booking
 
