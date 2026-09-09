@@ -1,5 +1,4 @@
 {{- if .Values.migration.enabled }}
-{{- $secretName := required "secretName is required for migration job" .Values.existingSecret }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -26,34 +25,11 @@ spec:
 
             - name: TYPEORM_MIGRATION_MODE
               value: "bundle"
+          envFrom:
 
-            - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName | quote }}
-                  key: DB_HOST
+            {{- if .Values.existingSecret }}
+              - secretRef:
+                  name: {{ .Values.existingSecret }}
+            {{- end }}
 
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName | quote }}
-                  key: DB_PORT
-
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName | quote }}
-                  key: DB_USERNAME
-
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName | quote }}
-                  key: DB_PASSWORD
-
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName | quote }}
-                  key: DB_NAME
 {{- end }}
