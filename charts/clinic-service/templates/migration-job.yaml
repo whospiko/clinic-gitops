@@ -1,8 +1,9 @@
 {{- if .Values.migration.enabled }}
+{{- $secretName := required "secretName is required for migration job" .Values.secretName }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-migrate-{{ .Values.image.tag | trunc 8 }}
+  name: {{ .Values.appName }}-migrate-{{ .Values.image.tag | trunc 8 }}
   annotations:
     argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
@@ -17,36 +18,42 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
           command:
-            - node
+            - bun
             - migrate.js
           env:
             - name: NODE_ENV
-              value: {{ .Values.config.NODE_ENV }}
+              value: {{ .Values.config.NODE_ENV | quote }}
+
             - name: TYPEORM_MIGRATION_MODE
               value: "bundle"
+
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.existingSecret }}
+                  name: {{ $secretName | quote }}
                   key: DB_HOST
+
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.existingSecret }}
+                  name: {{ $secretName | quote }}
                   key: DB_PORT
+
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.existingSecret }}
+                  name: {{ $secretName | quote }}
                   key: DB_USERNAME
+
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.existingSecret }}
+                  name: {{ $secretName | quote }}
                   key: DB_PASSWORD
+
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretName }}
+                  name: {{ $secretName | quote }}
                   key: DB_NAME
 {{- end }}
