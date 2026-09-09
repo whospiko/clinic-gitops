@@ -46,3 +46,6 @@ autoscaling:
   maxReplicas: 5
 
   targetCPUUtilizationPercentage: 70
+
+migration:
+  enabled: false
