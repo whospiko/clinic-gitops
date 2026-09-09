@@ -34,19 +34,19 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.existingSecret }}
                   key: DB_PORT
-            - name: DB_NAME
+            - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.existingSecret }}
-                  key: DB_NAME
+                  key: DB_USERNAME
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.existingSecret }}
                   key: DB_PASSWORD
-            - name: DB_DATABASE
+            - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.existingSecret }}
-                  key: DB_DATABASE
+                  name: {{ .Values.secretName }}
+                  key: DB_NAME
 {{- end }}
