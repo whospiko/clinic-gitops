@@ -1,5 +1,5 @@
 {{- if .Values.migration.enabled }}
-{{- $secretName := required "secretName is required for migration job" .Values.secretName }}
+{{- $secretName := required "secretName is required for migration job" .Values.existingSecret }}
 apiVersion: batch/v1
 kind: Job
 metadata:
