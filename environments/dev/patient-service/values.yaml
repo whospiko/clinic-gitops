@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/whospiko/patient-service
-  tag: "f51f2ba5d709186b08ba0266d4c2642cba31135a"
+  tag: "c16da3bf0531cb205844b5da8b84d3df89a0c6e2"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -16,6 +16,9 @@ service:
 config:
   NODE_ENV: development
   PORT: "3002"
+
+migration:
+  enabled: false
 
 existingSecret: patient-service-secret
 
