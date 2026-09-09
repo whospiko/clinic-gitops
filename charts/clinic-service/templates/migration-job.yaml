@@ -20,12 +20,14 @@ spec:
           imagePullPolicy: IfNotPresent
           command:
             - bun
-            - /app/migrate.js
+            - /app/migrate.cjs
           env:
             - name: NODE_ENV
               value: {{ .Values.config.NODE_ENV | quote }}
+
             - name: TYPEORM_MIGRATION_MODE
               value: "bundle"
+
           envFrom:
             - secretRef:
                 name: {{ .Values.existingSecret | quote }}
