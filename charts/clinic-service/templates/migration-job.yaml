@@ -1,11 +1,13 @@
 {{- if .Values.migration.enabled }}
+{{- $appName := required "appName is required for migration job" .Release.Name }}
+{{- $secretName := required "existingSecret is required for migration job" .Values.existingSecret }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.appName }}-migrate-{{ .Values.image.tag | trunc 8 }}
+  name: {{ printf "%s-migrate-%s" $appName (.Values.image.tag | trunc 8) | trunc 63 | trimSuffix "-" }}
   annotations:
     argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded,HookFailed
 spec:
   backoffLimit: 2
   ttlSecondsAfterFinished: 300
@@ -25,11 +27,8 @@ spec:
 
             - name: TYPEORM_MIGRATION_MODE
               value: "bundle"
+
           envFrom:
-
-            {{- if .Values.existingSecret }}
-              - secretRef:
-                  name: {{ .Values.existingSecret }}
-            {{- end }}
-
+            - secretRef:
+                name: {{ $secretName | quote }}
 {{- end }}
